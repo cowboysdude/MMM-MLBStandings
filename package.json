@@ -1,0 +1,23 @@
+{
+  "name": "mmm-mlbstandings",
+  "version": "0.0.1",
+  "description": "MLB standings for MM2",
+  "main": "MMM-MLBstandings.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cowboysdude/MMM-MLBStandings.git"
+  },
+  "author": "cowboysdude",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cowboysdude/MMM-MLBStandings/issues"
+  },
+  "homepage": "https://github.com/cowboysdude/MMM-MLBStandings#readme",
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {}
+}
