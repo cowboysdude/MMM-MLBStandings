@@ -9,11 +9,11 @@ const request = require('request');
 
 
 module.exports = NodeHelper.create({
-        
+
     start: function() {
         console.log("Starting module: " + this.name);
     },
-    
+
     getStandings: function(url) {
         request({
             url: "https://erikberg.com/mlb/standings.json",
@@ -23,21 +23,25 @@ module.exports = NodeHelper.create({
             }
         }, (error, response, body) => {
             if (!error && response.statusCode == 200) {
+                var data = {};
                 var result = JSON.parse(body).standing;
-                if (result.filter((result) => result.conference === "AL")){
-        this.americanEast = result.filter((result) => result.division === "E" );
-        this.americanCen = result.filter((result) => result.division === "C" );
-        this.americanWest = result.filter((result) => result.division === "W" );
-  console.log(this.americanWest);      
-        }
-                if (result.filter((result) => result.conference === "NL")){
-		this.nationale = result.filter((result) => result.division === "E" );
-        this.nationalc = result.filter((result) => result.division === "C" );
-        this.nationalw = result.filter((result) => result.division === "W" );	
-		}
-    this.sendSocketNotification("STANDINGS_RESULTS", {AmericanE: this.americanEast, AmericanC: this.americanCen, AmericanW: this.americanWest,        Nationale: this.nationale, Nationalc: this.nationalc, Nationalw: this.nationalw});
+                data.AL = this.filterStandings(result, "AL");
+                data.NL = this.filterStandings(result, "NL");
+
+                this.sendSocketNotification("STANDINGS_RESULTS", {
+                    standings: data
+                });
             }
         });
+    },
+
+    filterStandings: function(standings, conference) {
+        const filtered = standings.filter((result) => result.conference === conference);
+        return {
+            E: filtered.filter((result) => result.division === "E"),
+            C: filtered.filter((result) => result.division === "C"),
+            W: filtered.filter((result) => result.division === "W")
+        };
     },
 
     socketNotificationReceived: function(notification, payload) {
