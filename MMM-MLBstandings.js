@@ -15,7 +15,7 @@ Module.register("MMM-MLBstandings", {
         maxWidth: "450px",
         fadeSpeed: 5,
         header: true,
-        rotateInterval: 10 * 1000
+        rotateInterval: 20 * 1000
     },
 
     // Define required scripts.
@@ -40,17 +40,17 @@ Module.register("MMM-MLBstandings", {
         this.updateInterval = null;
         this.scheduleUpdate();
     },
-
+    
     scheduleCarousel: function() {
-        console.log("Scheduling History items");
-        this.rotateInterval = setInterval(() => {
-            this.activeItem++;
-            if (this.activeItem >= 6) {
-                this.activeItem = 0;
-            }
-            this.updateDom(this.config.animationSpeed);
-        }, this.config.rotateInterval);
-    },
+       		console.log("Scheduling History items");
+	   		this.rotateInterval = setInterval(() => {
+				this.activeItem++;
+				if(this.activeItem >= 6) {
+					this.activeItem = 0;
+				}
+				this.updateDom(this.config.animationSpeed);
+			}, this.config.rotateInterval);
+	   },
 
     scheduleUpdate: function() {
         this.updateInterval = setInterval(() => {
@@ -61,20 +61,20 @@ Module.register("MMM-MLBstandings", {
     },
 
     getStandings: function() {
-        this.sendSocketNotification("GET_STANDINGS", this.american, this.national);
+        this.sendSocketNotification("GET_STANDINGS");
     },
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "STANDINGS_RESULTS") {
-            console.log(payload);
-            this.standings = payload.standings
-            if (this.rotateInterval == null) {
-                this.scheduleCarousel();
-            }
-            this.updateDom(this.config.animationSpeed);
-        }
-        this.updateDom(this.config.initialLoadDelay);
-    },
+        	console.log(payload);
+             this.standings = payload.standings
+            if(this.rotateInterval == null){
+			   	this.scheduleCarousel();
+			   }
+               this.updateDom(this.config.animationSpeed);
+         }
+         this.updateDom(this.config.initialLoadDelay);
+     },
 
     getDom: function() {
 
@@ -93,87 +93,86 @@ Module.register("MMM-MLBstandings", {
             wrapper.appendChild(header);
         }
 
-        var top = document.createElement("div");
-        top.classList = "xsmall bright thin";
+            var top = document.createElement("div");
+            top.classList = "xsmall bright thin";
 
-        // Table creation below
+            // Table creation below
 
-        var gameTable = document.createElement("table");
+            var gameTable = document.createElement("table");
 
-        var firstrow = document.createElement("tr");
+            var firstrow = document.createElement("tr");
+            
 
-        var teamcolumn = document.createElement("th");
-        teamcolumn.setAttribute("colspan", 2);
-        teamcolumn.classList.add("status");
-        teamcolumn.innerHTML = "Team";
+            var teamcolumn = document.createElement("th");
+            teamcolumn.setAttribute("colspan", 2);
+            teamcolumn.classList.add("status");
+            teamcolumn.innerHTML = "Team";
 
-        firstrow.appendChild(teamcolumn);
-        gameTable.appendChild(firstrow);
+            firstrow.appendChild(teamcolumn);
+            gameTable.appendChild(firstrow);
 
-        var winscolumn = document.createElement("th");
-        winscolumn.classList.add("r");
-        winscolumn.innerHTML = "W";
-        firstrow.appendChild(winscolumn);
-        gameTable.appendChild(firstrow);
+            var winscolumn = document.createElement("th");
+            winscolumn.classList.add("alignth");
+            winscolumn.innerHTML = "W";
+            firstrow.appendChild(winscolumn);
+            gameTable.appendChild(firstrow);
 
-        var losscolumn = document.createElement("th");
-        losscolumn.classList.add("h");
-        losscolumn.innerHTML = "L";
-        firstrow.appendChild(losscolumn);
-        gameTable.appendChild(firstrow);
+            var losscolumn = document.createElement("th");
+            losscolumn.classList.add("alignth");
+            losscolumn.innerHTML = "L";
+            firstrow.appendChild(losscolumn);
+            gameTable.appendChild(firstrow);
 
-        var gbcolumn = document.createElement("th");
-        gbcolumn.classList.add("h");
-        gbcolumn.innerHTML = "GB";
-        firstrow.appendChild(gbcolumn);
-        gameTable.appendChild(firstrow);
+            var gbcolumn = document.createElement("th");
+            gbcolumn.classList.add("alignth");
+            gbcolumn.innerHTML = "GB";
+            firstrow.appendChild(gbcolumn);
+            gameTable.appendChild(firstrow);
 
-        var wpcolumn = document.createElement("th");
-        wpcolumn.classList.add("h");
-        wpcolumn.innerHTML = "W%";
-        firstrow.appendChild(wpcolumn);
-        gameTable.appendChild(firstrow);
+            var wpcolumn = document.createElement("th");
+            wpcolumn.classList.add("alignth");
+            wpcolumn.innerHTML = "W%";
+            firstrow.appendChild(wpcolumn);
+            gameTable.appendChild(firstrow);
 
-        var gpcolumn = document.createElement("th");
-        gpcolumn.classList.add("h");
-        gpcolumn.innerHTML = "GP";
-        firstrow.appendChild(gpcolumn);
+            var gpcolumn = document.createElement("th");
+            gpcolumn.classList.add("alignth");
+            gpcolumn.innerHTML = "GP";
+            firstrow.appendChild(gpcolumn);
 
-        var tencolumn = document.createElement("th");
-        tencolumn.classList.add("h");
-        tencolumn.innerHTML = "L10";
-        firstrow.appendChild(tencolumn);
+            var tencolumn = document.createElement("th");
+            tencolumn.classList.add("alignth");
+            tencolumn.innerHTML = "L10";
+            firstrow.appendChild(tencolumn);
 
-        var streakcolumn = document.createElement("th");
-        streakcolumn.classList.add("h");
-        streakcolumn.innerHTML = "Streak";
-        firstrow.appendChild(streakcolumn);
-
-
-        gameTable.appendChild(firstrow);
+            var streakcolumn = document.createElement("th");  
+            streakcolumn.classList.add("alignth");          
+            streakcolumn.innerHTML = "Streak";
+            firstrow.appendChild(streakcolumn);
 
 
-        //-----------------------------------//
-        //         Data goes here            //
-        //-----------------------------------//
-        var conference = this.conferences[this.activeItem < 3 ? 0 : 1];
-        var division = this.divisions[this.activeItem % 3];
-        var standings = this.standings[conference][division];
-
-        for (var i = 0; i < standings.length; i++) {
-            gameTable.appendChild(this.createStandingDataRow(standings[i]));
-        }
-
-        top.appendChild(gameTable);
-        wrapper.appendChild(top);
+            gameTable.appendChild(firstrow);
 
 
-
+            //-----------------------------------//
+            //         Data goes here            //
+            //-----------------------------------//
+            var conference = this.conferences[this.activeItem < 3 ? 0 : 1];
+            var division = this.divisions[this.activeItem % 3];
+            var standings = this.standings[conference][division];
+            
+            for (var i = 0; i < standings.length; i++) {           
+				gameTable.appendChild(this.createStandingDataRow(standings[i]));
+			}
+             
+            top.appendChild(gameTable);
+            wrapper.appendChild(top);
+     
         return wrapper;
     },
-
+    
     createStandingDataRow: function(data) {
-        var row = document.createElement("tr");
+		var row = document.createElement("tr");
 
         var iconColumn = document.createElement("td");
         var icon = document.createElement("img");
@@ -187,33 +186,40 @@ Module.register("MMM-MLBstandings", {
         row.appendChild(teamColumn);
 
         var winsColumn = document.createElement("td");
+        winsColumn.classList.add("align");
         winsColumn.innerHTML = data.won;
         row.appendChild(winsColumn);
-
+        
         var lossColumn = document.createElement("td");
+        lossColumn.classList.add("align");
         lossColumn.innerHTML = data.lost;
         row.appendChild(lossColumn);
-
+        
         var gbColumn = document.createElement("td");
+        gbColumn.classList.add("align");
         gbColumn.innerHTML = data.games_back;
         row.appendChild(gbColumn);
-
+        
         var wpColumn = document.createElement("td");
+        wpColumn.classList.add("align");
         wpColumn.innerHTML = data.win_percentage;
         row.appendChild(wpColumn);
-
+        
         var gpColumn = document.createElement("td");
+        gpColumn.classList.add("align");
         gpColumn.innerHTML = data.games_played;
         row.appendChild(gpColumn);
-
+        
         var tenColumn = document.createElement("td");
+        tenColumn.classList.add("align");
         tenColumn.innerHTML = data.last_ten;
         row.appendChild(tenColumn);
-
+        
         var streakColumn = document.createElement("td");
+        streakColumn.classList.add("align");
         streakColumn.innerHTML = data.streak;
         row.appendChild(streakColumn);
 
-        return row;
-    }
+		return row;
+	}
 });
