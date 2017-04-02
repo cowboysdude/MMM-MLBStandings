@@ -1,6 +1,12 @@
-
 .MMM-MLBstandings .wrapper{
   text-align: justify;
+}
+.MMM-MLBstandings .align {
+  text-align: center;
+}
+.MMM-MLBstandings .alignth {
+  text-align: center;
+  color: #d8dc23;
 }
 .MMM-MLBstandings .header {
   color: #fff;
@@ -9,21 +15,6 @@
 .MMM-MLBstandings .status {
   color: #aeb3c1;
   font-size: 18px;
-}
-.MMM-MLBstandings .r {
-  color: #c6d9d0;
-}
-.MMM-MLBstandings .h {
-  color: #c6d9d0;
-}
-.MMM-MLBstandings .e {
-  color: #c6d9d0;
-}
-.MMM-MLBstandings .hometeam {
-  color: #e4e4e4;
-}
-.MMM-MLBstandings .awayteam {
-  color: #e4e4e4;
 }
 .MMM-MLBstandings .logo {
 	height: 25px;
@@ -34,18 +25,3 @@
 	width: 12%;
 	margin-right: 15px;
 }
-.MMM-MLBstandings .status2 {
-	
-}
-.MMM-MLBstandings .status3 {
-	
-}
-.MMM-MLBstandings .status4 {
-	
-}
-.MMM-MLBstandings .NLE {
-	background-color: #ff0000;
-}
-
-
-
