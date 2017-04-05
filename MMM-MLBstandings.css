@@ -1,3 +1,4 @@
+
 .MMM-MLBstandings .wrapper{
   text-align: justify;
 }
@@ -24,4 +25,10 @@
 	height: 12%;
 	width: 12%;
 	margin-right: 15px;
+}
+.MMM-MLBstandings .bar {
+	color: white;
+	background-color: blue;
+	width: 100%;
+	text-shadow: 1px 2px 4px rgba(150, 150, 150, 1);
 }
