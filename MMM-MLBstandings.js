@@ -8,11 +8,11 @@ Module.register("MMM-MLBstandings", {
 
     // Module config defaults.
     defaults: {
-        updateInterval: 2 * 60 * 1000, // every 2 minutes
+        updateInterval: 60 * 60 * 1000, // every 60 minutes
         animationSpeed: 10,
         initialLoadDelay: 2500, // 2.5 seconds delay
         retryDelay: 1500,
-        maxWidth: "450px",
+        maxWidth: "100%",
         fadeSpeed: 5,
         header: true,
         rotateInterval: 20 * 1000
@@ -34,7 +34,7 @@ Module.register("MMM-MLBstandings", {
         // Set locale.
         this.week = "";
         this.conferences = ["AL", "NL"];
-        this.divisions = ["W", "C", "E"];
+        this.divisions = ["E", "C", "W"];
         this.today = "";
         this.activeItem = 0;
         this.updateInterval = null;
@@ -42,7 +42,7 @@ Module.register("MMM-MLBstandings", {
     },
     
     scheduleCarousel: function() {
-       		console.log("Scheduling History items");
+       		console.log("Scheduling Standings data");
 	   		this.rotateInterval = setInterval(() => {
 				this.activeItem++;
 				if(this.activeItem >= 6) {
@@ -50,6 +50,7 @@ Module.register("MMM-MLBstandings", {
 				}
 				this.updateDom(this.config.animationSpeed);
 			}, this.config.rotateInterval);
+			
 	   },
 
     scheduleUpdate: function() {
@@ -66,47 +67,66 @@ Module.register("MMM-MLBstandings", {
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "STANDINGS_RESULTS") {
-        	console.log(payload);
-             this.standings = payload.standings
+        	this.standings = payload.standings
+            this.loaded = true;
             if(this.rotateInterval == null){
 			   	this.scheduleCarousel();
 			   }
                this.updateDom(this.config.animationSpeed);
          }
          this.updateDom(this.config.initialLoadDelay);
+         
      },
 
     getDom: function() {
-
+          
         var wrapper = document.createElement("div");
         wrapper.className = "wrapper";
         wrapper.style.maxWidth = this.config.maxWidth;
+        
+        if (!this.loaded) {
+            wrapper.innerHTML = "Getting your data...<img src='modules/MMM-MLBStandings/icons/loading.gif' width='22' height='22'>";
+            wrapper.className = "bright light xsmall";
+            return wrapper;
+        }
 
         if (this.config.header === true) {
             var header = document.createElement("header");
             header.classList.add("header");
             if (this.config.logo === true) {
-                header.innerHTML = "<img class='emblem' src='modules/MMM-MLB/icons/mlb.png'>    MLB Scores     " + moment().format('MM/DD/YYYY');
+    header.innerHTML = "<img class='emblem' src='modules/MMM-MLB/icons/mlb.png'>    MLB Scores     " + moment().format('MM/DD/YYYY');
             } else {
-                header.innerHTML = " MLB Scores     " + moment().format('MM/DD/YYYY');
+                header.innerHTML = " MLB Standings as of:      " + moment().format('MM/DD/YYYY');
             }
             wrapper.appendChild(header);
         }
 
             var top = document.createElement("div");
             top.classList = "xsmall bright thin";
-
-            // Table creation below
-
-            var gameTable = document.createElement("table");
-
-            var firstrow = document.createElement("tr");
+             
+/////////////////////////////////////////////////////////////////////
+/////////////////// Table creation below ////////////////////////////
+/////////////////////////////////////////////////////////////////////
             
+            var gameTable = document.createElement("table");
+            
+            var toprow = document.createElement("tr");
+            var conf = document.createElement("th");
+            conf.setAttribute("colspan", 10);
+            //conf.classList.add("bar");
+    console.log(this.info);
+              conf.innerHTML = "";
+            //conf.innerHTML = this.info;
+
+            toprow.appendChild(conf);
+            gameTable.appendChild(toprow);
+            
+            var firstrow = document.createElement("tr");
 
             var teamcolumn = document.createElement("th");
             teamcolumn.setAttribute("colspan", 2);
             teamcolumn.classList.add("status");
-            teamcolumn.innerHTML = "Team";
+            teamcolumn.innerHTML = "";
 
             firstrow.appendChild(teamcolumn);
             gameTable.appendChild(firstrow);
@@ -149,19 +169,32 @@ Module.register("MMM-MLBstandings", {
             streakcolumn.classList.add("alignth");          
             streakcolumn.innerHTML = "Streak";
             firstrow.appendChild(streakcolumn);
-
-
+            
             gameTable.appendChild(firstrow);
-
-
+           
+            
             //-----------------------------------//
-            //         Data goes here            //
+            //         DATA GOES HERE            //
             //-----------------------------------//
+              
             var conference = this.conferences[this.activeItem < 3 ? 0 : 1];
             var division = this.divisions[this.activeItem % 3];
             var standings = this.standings[conference][division];
             
-            for (var i = 0; i < standings.length; i++) {           
+                for (var i = 0; i < standings.length; i++) { 
+                  str = standings[i].conference + " " + standings[i].division;
+                  var mapObj = {
+                                "AL":"American League",
+                                "NL":"National League",
+                                "E":"East",
+                                "C":"Central",
+                                "W":"West"
+                                };
+                  this.info = str.replace(/(AL|NL|E|C|W)/gi, function(matched){
+                  return mapObj[matched];
+                  
+               });
+                
 				gameTable.appendChild(this.createStandingDataRow(standings[i]));
 			}
              
@@ -172,6 +205,7 @@ Module.register("MMM-MLBstandings", {
     },
     
     createStandingDataRow: function(data) {
+    	
 		var row = document.createElement("tr");
 
         var iconColumn = document.createElement("td");
@@ -219,7 +253,8 @@ Module.register("MMM-MLBstandings", {
         streakColumn.classList.add("align");
         streakColumn.innerHTML = data.streak;
         row.appendChild(streakColumn);
-
+        
 		return row;
-	}
+	},
+	
 });
