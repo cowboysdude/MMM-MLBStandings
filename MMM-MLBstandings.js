@@ -15,6 +15,7 @@ Module.register("MMM-MLBstandings", {
         maxWidth: "100%",
         fadeSpeed: 5,
         header: true,
+        confdiv: true,
         rotateInterval: 5 * 1000
     },
 
@@ -120,11 +121,14 @@ Module.register("MMM-MLBstandings", {
             firstrow.appendChild(teamcolumn);
             gameTable.appendChild(firstrow);
             
+            
+            if (this.config.confdiv != false){
             var cdcolumn = document.createElement("th");
             cdcolumn.classList.add("alignth");
             cdcolumn.innerHTML = "C~D";
             firstrow.appendChild(cdcolumn);
             gameTable.appendChild(firstrow);
+			}
 
             var winscolumn = document.createElement("th");
             winscolumn.classList.add("alignth");
@@ -199,10 +203,12 @@ Module.register("MMM-MLBstandings", {
         teamColumn.innerHTML = data.first_name + " " + data.last_name;
         row.appendChild(teamColumn);
         
+        if (this.config.confdiv != false){          
         var cdColumn = document.createElement("td");
         cdColumn.classList.add("align");
         cdColumn.innerHTML = data.conference+ "~" +data.division;
         row.appendChild(cdColumn);
+		}
 
         var winsColumn = document.createElement("td");
         winsColumn.classList.add("align");
