@@ -19,6 +19,7 @@ ______________CONFIG.JS______________________
 				email: "billybob@gmail.com",
 				maxWidth: "100%", 
 				header: true,
+				confdiv: true
 			}
 		   },
  ___________________________________________
@@ -28,7 +29,8 @@ ______________CONFIG.JS______________________
       config options:
       email: YOUR EMAIL ADDRESS to get return data, no email = no data.
       maxWidth: set max width in px - ie "500px"  - default is 100%
-      header: do you want a header?  
+      header: do you want a header? 
+      confdiv: Show or hide conference~division column use true or false - default is true
       
       
  
