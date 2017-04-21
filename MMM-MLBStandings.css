@@ -1,0 +1,34 @@
+
+.MMM-MLBStandings .wrapper{
+  text-align: justify;
+}
+.MMM-MLBStandings .align {
+  text-align: center;
+}
+.MMM-MLBStandings .alignth {
+  text-align: center;
+  color: #d8dc23;
+}
+.MMM-MLBStandings .header {
+  color: #fff;
+  text-align: center;
+}
+.MMM-MLBStandings .status {
+  color: #aeb3c1;
+  font-size: 18px;
+}
+.MMM-MLBStandings .logo {
+	height: 25px;
+	width: 25px;
+}
+.MMM-MLBStandings .emblem {
+	height: 12%;
+	width: 12%;
+	margin-right: 15px;
+}
+.MMM-MLBStandings .bar {
+	color: white;
+	background-color: blue;
+	width: 100%;
+	text-shadow: 1px 2px 4px rgba(150, 150, 150, 1);
+}
