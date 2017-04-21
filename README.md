@@ -13,7 +13,7 @@ ______________CONFIG.JS______________________
 
          {
         disabled: false,
-			  module: 'MMM-MLBstandings',
+			  module: 'MMM-MLBStandings',
 			  position: 'top_center',
 			  config: {			      
 				email: "billybob@gmail.com",
