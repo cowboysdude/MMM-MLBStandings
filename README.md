@@ -12,7 +12,6 @@ npm install
 ______________CONFIG.JS______________________
 
          {
-        disabled: false,
 			  module: 'MMM-MLBStandings',
 			  position: 'top_center',
 			  config: {			      
