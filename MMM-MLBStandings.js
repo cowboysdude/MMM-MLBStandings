@@ -12,11 +12,11 @@ Module.register("MMM-MLBStandings", {
         animationSpeed: 10,
         initialLoadDelay: 2500, // 2.5 seconds delay
         retryDelay: 1500,
-        maxWidth: "100%",
+        maxWidth: "400px",
+        rotateInterval: 10 * 1000,
         fadeSpeed: 5,
         header: true,
         confdiv: true,
-        rotateInterval: 5 * 1000
     },
 
     // Define required scripts.
@@ -32,18 +32,21 @@ Module.register("MMM-MLBStandings", {
     start: function() {
         Log.info("Starting module: " + this.name);
         this.sendSocketNotification('CONFIG', this.config);
+        
+        requiresVersion: "2.1.0",
+        
         // Set locale.
         this.week = "";
         this.conferences = ["AL", "NL"];
         this.divisions = ["E", "C", "W"];
         this.today = "";
         this.activeItem = 0;
+        this.rotateInterval = null;
         this.updateInterval = null;
         this.scheduleUpdate();
     },
 
     scheduleCarousel: function() {
-        console.log("Scheduling Standings data");
         this.rotateInterval = setInterval(() => {
             this.activeItem++;
             if (this.activeItem >= 6) {
