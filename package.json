@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/cowboysdude/MMM-MLBStandings#readme",
   "dependencies": {
-    "request": "^2.81.0"
   },
   "devDependencies": {}
 }
