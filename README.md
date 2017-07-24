@@ -5,7 +5,10 @@ MLB standings module for MM2
 
 git clone https://github.com/cowboysdude/MMM-MLBStandings
 
+~MagicMirror/modules/MMM-MLBStandings
+type:  npm install
 
+Add your config to your config.js and away you go!
 
 ______________CONFIG.JS______________________
 
